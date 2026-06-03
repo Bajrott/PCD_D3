@@ -3,28 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EcoSort — Klasifikasi Sampah dengan Image Processing</title>
-  <meta name="description" content="Aplikasi klasifikasi sampah berbasis pengolahan citra digital. Deteksi otomatis kategori organik, non-organik, dan B3 dari gambar." />
+  <title>Pengolahan Citra Digital — Klasifikasi Sampah</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
-  <!-- ===== BACKGROUND PARTICLES ===== -->
   <div class="bg-particles" id="bgParticles"></div>
 
-  <!-- ===== HEADER ===== -->
   <header class="header">
     <div class="header-inner">
       <div class="logo">
-        <div class="logo-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>
-            <path d="M10 11v5M14 11v5"/>
-          </svg>
-        </div>
-        <span class="logo-text">Eco<span class="accent">Sort</span></span>
+        <span class="logo-text">Pengolahan Citra <span class="accent">Digital</span></span>
       </div>
       <nav class="nav">
         <a href="#upload-section" class="nav-link">Klasifikasi</a>
@@ -34,179 +26,69 @@
     </div>
   </header>
 
-  <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="hero-content">
-      <div class="hero-badge">
-        <span class="badge-dot"></span>
-        Image Processing &amp; Computer Vision
-      </div>
-      <h1 class="hero-title">
-        Klasifikasi Sampah<br />
-        <span class="gradient-text">Cerdas &amp; Otomatis</span>
-      </h1>
-      <p class="hero-subtitle">
-        Upload foto sampah dan sistem kami akan menganalisis fitur warna, bentuk,
-        dan tekstur secara otomatis menggunakan algoritma pengolahan citra digital
-        untuk mengklasifikasikan ke dalam kategori <strong>Organik</strong>, <strong>Non-Organik</strong>, atau <strong>B3</strong>.
-      </p>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <span class="stat-num">3</span>
-          <span class="stat-label">Kategori</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <span class="stat-num">15+</span>
-          <span class="stat-label">Fitur Bentuk</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <span class="stat-num">30+</span>
-          <span class="stat-label">Fitur Warna</span>
-        </div>
-      </div>
-      <a href="#upload-section" class="btn-primary">
-        Mulai Klasifikasi
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
-      </a>
-    </div>
-    <div class="hero-visual">
-      <div class="hero-card floating">
-        <div class="hero-card-icon organik-icon">🍃</div>
-        <span>Organik</span>
-        <div class="hero-card-bar">
-          <div class="bar-fill organik-bar" style="width:72%"></div>
-        </div>
-        <span class="bar-pct">72%</span>
-      </div>
-      <div class="hero-card floating delay-1">
-        <div class="hero-card-icon non-icon">♻️</div>
-        <span>Non-Organik</span>
-        <div class="hero-card-bar">
-          <div class="bar-fill non-bar" style="width:20%"></div>
-        </div>
-        <span class="bar-pct">20%</span>
-      </div>
-      <div class="hero-card floating delay-2">
-        <div class="hero-card-icon b3-icon">⚠️</div>
-        <span>B3</span>
-        <div class="hero-card-bar">
-          <div class="bar-fill b3-bar" style="width:8%"></div>
-        </div>
-        <span class="bar-pct">8%</span>
-      </div>
+      <div class="hero-badge"><span class="badge-dot"></span> Image Processing &amp; PCD</div>
+      <h1 class="hero-title">Klasifikasi Sampah<br /><span class="gradient-text">Cerdas &amp; Otomatis</span></h1>
+      <p class="hero-subtitle">Upload foto sampah dan sistem kami akan menganalisis fitur warna, bentuk, dan tekstur menggunakan Weighted-KNN.</p>
     </div>
   </section>
 
-  <!-- ===== UPLOAD SECTION ===== -->
   <section class="upload-section" id="upload-section">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Analisis Gambar</h2>
-        <p class="section-subtitle">Upload gambar sampah untuk diklasifikasikan secara otomatis</p>
+        <p class="section-subtitle">Upload gambar sampah untuk mendeteksi fiturnya</p>
       </div>
 
       <div class="upload-layout">
-        <!-- Upload Panel -->
         <div class="upload-panel glass-card">
-          <div class="drop-zone" id="dropZone">
+          <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()" style="cursor: pointer;">
             <div class="drop-zone-inner" id="dropZoneInner">
-              <div class="upload-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                  <polyline points="17 8 12 3 7 8"/>
-                  <line x1="12" y1="3" x2="12" y2="15"/>
-                </svg>
-              </div>
-              <p class="drop-title">Drag &amp; Drop gambar di sini</p>
-              <p class="drop-sub">atau klik untuk memilih file</p>
-              <span class="drop-formats">JPG, PNG, JPEG • Maks 10 MB</span>
+              <p class="drop-title">Pilih gambar sampah di bawah</p>
             </div>
-            <img id="previewImg" class="preview-img hidden" alt="Preview gambar yang diunggah" />
+            <img id="previewImg" class="preview-img hidden" alt="Preview Gambar" />
           </div>
-
-          <input type="file" id="fileInput" accept=".jpg,.jpeg,.png" class="hidden-input" />
-
+          
+          <input type="file" id="fileInput" accept=".jpg,.jpeg,.png" style="display: none !important;" />
+          
           <div class="upload-actions">
-            <button class="btn-upload" id="btnChoose" onclick="document.getElementById('fileInput').click()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-              </svg>
-              Pilih Gambar
-            </button>
-            <button class="btn-analyze" id="btnAnalyze" disabled>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"/>
-                <path d="m21 21-4.35-4.35"/>
-              </svg>
-              Analisis Sekarang
-            </button>
+            <button class="btn-upload" id="btnChoose" type="button">Pilih Gambar</button>
+            <button class="btn-analyze" id="btnAnalyze" type="button" disabled>Analisis Sekarang</button>
           </div>
         </div>
 
-        <!-- Process + Result Panel -->
         <div class="result-panel">
-          <!-- Steps -->
-          <div class="process-card glass-card" id="processCard">
-            <div class="process-header">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-              </svg>
-              <span>Log Proses</span>
-            </div>
-            <div class="steps-list" id="stepsList">
-              <div class="step-placeholder">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M12 8v4M12 16h.01"/>
-                </svg>
-                Proses akan ditampilkan di sini setelah gambar dianalisis
-              </div>
-            </div>
-            <!-- Progress Bar -->
+          <div class="process-card glass-card">
+            <div class="process-header"><span>Log Pipeline Proses</span></div>
             <div class="progress-wrap">
-              <div class="progress-label">
-                <span id="progressLabel">Menunggu gambar...</span>
-                <span id="progressPct">0%</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-bar" id="progressBar" style="width:0%"></div>
-              </div>
+              <div class="progress-label"><span id="progressLabel">Menunggu gambar...</span><span id="progressPct">0%</span></div>
+              <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
             </div>
           </div>
 
-          <!-- Result Card -->
           <div class="result-card glass-card hidden" id="resultCard">
             <div class="result-header">
-              <div class="result-icon" id="resultIcon">🏆</div>
+              <div class="result-icon">🏆</div>
               <div>
                 <div class="result-category" id="resultCategory">—</div>
-                <div class="result-confidence" id="resultConfidence">Kepercayaan —</div>
+                <div class="result-confidence" id="resultConfidence">Sukses</div>
               </div>
             </div>
             <div class="result-bars">
               <div class="result-bar-row">
-                <span class="rbar-label"><span class="rbar-emoji">🍃</span> Organik</span>
-                <div class="rbar-track">
-                  <div class="rbar-fill organik-fill" id="barOrganik" style="width:0%"></div>
-                </div>
+                <span class="rbar-label">🍃 Organik</span>
+                <div class="rbar-track"><div class="rbar-fill organik-fill" id="barOrganik"></div></div>
                 <span class="rbar-pct" id="pctOrganik">0%</span>
               </div>
               <div class="result-bar-row">
-                <span class="rbar-label"><span class="rbar-emoji">♻️</span> Non-Organik</span>
-                <div class="rbar-track">
-                  <div class="rbar-fill non-fill" id="barNon" style="width:0%"></div>
-                </div>
+                <span class="rbar-label">♻️ Anorganik</span>
+                <div class="rbar-track"><div class="rbar-fill non-fill" id="barNon"></div></div>
                 <span class="rbar-pct" id="pctNon">0%</span>
               </div>
               <div class="result-bar-row">
-                <span class="rbar-label"><span class="rbar-emoji">⚠️</span> B3</span>
-                <div class="rbar-track">
-                  <div class="rbar-fill b3-fill" id="barB3" style="width:0%"></div>
-                </div>
+                <span class="rbar-label">⚠️ B3</span>
+                <div class="rbar-track"><div class="rbar-fill b3-fill" id="barB3"></div></div>
                 <span class="rbar-pct" id="pctB3">0%</span>
               </div>
             </div>
@@ -214,166 +96,39 @@
         </div>
       </div>
 
-      <!-- Feature Visualization -->
-      <div class="features-viz glass-card hidden" id="featuresViz">
-        <div class="viz-header">
-          <h3>Visualisasi Fitur Citra</h3>
-          <p>Hasil ekstraksi fitur warna, bentuk, dan tekstur dari gambar</p>
+      <div class="features-viz glass-card" id="featuresViz" style="display: none; margin-top: 3rem; padding: 2.5rem;">
+        <div class="viz-header" style="margin-bottom: 2.5rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 1rem;">
+          <h3 style="font-size: 1.5rem; font-weight: 800; color: #10b981; letter-spacing: -0.02em;">Visualisasi Fitur Citra (Hasil Pemrosesan OpenCV)</h3>
+          <p style="color: #9ca3af; font-size: 0.95rem; margin-top: 0.25rem;">Representasi matriks gambar pasca tahap pra-proses binerisasi</p>
         </div>
-        <div class="viz-grid">
-          <!-- Grayscale -->
-          <div class="viz-item">
-            <canvas id="canvasGray" width="200" height="200"></canvas>
-            <div class="viz-label">Grayscale</div>
+        
+        <div class="viz-column-layout" style="display: flex; flex-direction: column; gap: 2rem; max-width: 550px; margin: 0 auto;">
+          
+          <div class="viz-column-item" style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 1.25rem; text-align: center;">
+            <div class="viz-label" style="font-size: 1rem; font-weight: 700; color: #f3f4f6; margin-bottom: 0.75rem; text-align: left; border-left: 4px solid #10b981; padding-left: 0.75rem;">1. Konversi Citra Grayscale</div>
+            <img id="canvasGray" src="" alt="Grayscale Visual" style="width: 100%; height: auto; max-height: 280px; object-fit: contain; border-radius: 8px; background: #000; box-shadow: 0 6px 16px rgba(0,0,0,0.4);" />
           </div>
-          <!-- Edges -->
-          <div class="viz-item">
-            <canvas id="canvasEdge" width="200" height="200"></canvas>
-            <div class="viz-label">Deteksi Tepi (Canny)</div>
+          
+          <div class="viz-column-item" style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 1.25rem; text-align: center;">
+            <div class="viz-label" style="font-size: 1rem; font-weight: 700; color: #f3f4f6; margin-bottom: 0.75rem; text-align: left; border-left: 4px solid #60a5fa; padding-left: 0.75rem;">2. Binerisasi (Otsu Thresholding)</div>
+            <img id="canvasEdge" src="" alt="Threshold Visual" style="width: 100%; height: auto; max-height: 280px; object-fit: contain; border-radius: 8px; background: #000; box-shadow: 0 6px 16px rgba(0,0,0,0.4);" />
           </div>
-          <!-- Histogram -->
-          <div class="viz-item">
-            <canvas id="canvasHist" width="200" height="200"></canvas>
-            <div class="viz-label">Histogram RGB</div>
+          
+          <div class="viz-column-item" style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 1.25rem; text-align: center;">
+            <div class="viz-label" style="font-size: 1rem; font-weight: 700; color: #f3f4f6; margin-bottom: 0.75rem; text-align: left; border-left: 4px solid #f87171; padding-left: 0.75rem;">3. Deteksi Kontur Objek Tersegmentasi</div>
+            <img id="canvasHist" src="" alt="Contour Visual" style="width: 100%; height: auto; max-height: 280px; object-fit: contain; border-radius: 8px; background: #000; box-shadow: 0 6px 16px rgba(0,0,0,0.4);" />
           </div>
-          <!-- Dominant Colors -->
-          <div class="viz-item">
-            <div class="dominant-colors" id="dominantColors"></div>
-            <div class="viz-label">Warna Dominan</div>
-          </div>
-        </div>
-
-        <!-- Feature Table -->
-        <div class="feature-table-wrap">
-          <h4>Detail Fitur Bentuk</h4>
-          <div class="feature-chips" id="featureChips"></div>
+          
         </div>
       </div>
+
     </div>
   </section>
 
-  <!-- ===== FEATURE EXPLANATION ===== -->
-  <section class="fitur-section" id="fitur-section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Pipeline Ekstraksi Fitur</h2>
-        <p class="section-subtitle">Sistem menggunakan 3 jenis fitur utama untuk klasifikasi</p>
-      </div>
-      <div class="fitur-grid">
-        <div class="fitur-card glass-card">
-          <div class="fitur-icon color-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 2a10 10 0 010 20"/>
-              <path d="M12 2C6.5 2 2 6.5 2 12"/>
-            </svg>
-          </div>
-          <h3>Fitur Warna</h3>
-          <p>Mengekstrak mean &amp; standar deviasi RGB/HSV, 3 warna dominan via K-Means clustering, dan histogram distribusi warna (5 bin per channel).</p>
-          <div class="fitur-tags">
-            <span class="tag">Mean RGB</span>
-            <span class="tag">HSV</span>
-            <span class="tag">K-Means</span>
-            <span class="tag">Histogram</span>
-          </div>
-        </div>
-        <div class="fitur-card glass-card">
-          <div class="fitur-icon shape-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="12 2 22 20 2 20"/>
-            </svg>
-          </div>
-          <h3>Fitur Bentuk</h3>
-          <p>Segmentasi Otsu + GLCM morphology, lalu ekstraksi area, perimeter, eksentrisitas, soliditas, Hu Moments (5), dan rasio aspek dari region terbesar.</p>
-          <div class="fitur-tags">
-            <span class="tag">Otsu Threshold</span>
-            <span class="tag">Hu Moments</span>
-            <span class="tag">Solidity</span>
-            <span class="tag">Eccentricity</span>
-          </div>
-        </div>
-        <div class="fitur-card glass-card">
-          <div class="fitur-icon texture-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-              <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-            </svg>
-          </div>
-          <h3>Fitur Tekstur</h3>
-          <p>Gray-Level Co-occurrence Matrix (GLCM) menghasilkan properti contrast, energy, homogeneity, dan correlation untuk mendeskripsikan pola permukaan bahan.</p>
-          <div class="fitur-tags">
-            <span class="tag">GLCM</span>
-            <span class="tag">Contrast</span>
-            <span class="tag">Energy</span>
-            <span class="tag">Homogeneity</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== CATEGORY SECTION ===== -->
-  <section class="kategori-section" id="kategori-section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Kategori Sampah</h2>
-        <p class="section-subtitle">Sistem mengklasifikasikan sampah ke dalam 3 kategori utama</p>
-      </div>
-      <div class="kategori-grid">
-        <div class="kategori-card organik-card glass-card">
-          <div class="kat-emoji">🍃</div>
-          <h3>Organik</h3>
-          <p>Sampah yang berasal dari makhluk hidup dan dapat terurai secara alami seperti sisa makanan, daun, ranting, dan limbah pertanian.</p>
-          <div class="kat-examples">
-            <span>🍎 Sisa makanan</span>
-            <span>🌿 Dedaunan</span>
-            <span>🪵 Ranting</span>
-            <span>☕ Ampas kopi</span>
-          </div>
-          <div class="kat-action organik-action">Dapat Dikompos</div>
-        </div>
-        <div class="kategori-card non-card glass-card">
-          <div class="kat-emoji">♻️</div>
-          <h3>Non-Organik</h3>
-          <p>Sampah yang tidak dapat terurai secara alami namun dapat didaur ulang seperti plastik, kaca, logam, kertas, dan kardus.</p>
-          <div class="kat-examples">
-            <span>🧴 Plastik</span>
-            <span>🪙 Logam</span>
-            <span>📦 Kardus</span>
-            <span>🍶 Kaca</span>
-          </div>
-          <div class="kat-action non-action">Dapat Didaur Ulang</div>
-        </div>
-        <div class="kategori-card b3-card glass-card">
-          <div class="kat-emoji">⚠️</div>
-          <h3>B3 (Bahan Berbahaya)</h3>
-          <p>Sampah yang mengandung bahan berbahaya dan beracun yang memerlukan penanganan khusus seperti baterai, cat, obat-obatan, dan elektronik.</p>
-          <div class="kat-examples">
-            <span>🔋 Baterai</span>
-            <span>💊 Obat-obatan</span>
-            <span>🖥️ Elektronik</span>
-            <span>🪣 Cat / Kimia</span>
-          </div>
-          <div class="kat-action b3-action">Penanganan Khusus</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== FOOTER ===== -->
   <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-logo">
-        <span class="logo-text">Eco<span class="accent">Sort</span></span>
-      </div>
-      <p class="footer-desc">Sistem Klasifikasi Sampah Berbasis Pengolahan Citra Digital</p>
-      <p class="footer-credit">Dibuat dengan ❤️ untuk Proyek PCD — Semester 4</p>
-    </div>
+    <p class="footer-desc">Sistem Klasifikasi Sampah Berbasis Pengolahan Citra Digital</p>
   </footer>
 
-  <!-- Hidden canvas for processing -->
-  <canvas id="offscreenCanvas" style="display:none"></canvas>
-
-  <script src="app.js"></script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
