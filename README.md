@@ -56,3 +56,4 @@ Proyek ini bertujuan untuk mengembangkan program pengolahan citra digital yang m
 
 4. Klasifikasi Weighted-KNN & Output
    Nilai fitur dihitung jarak Euclideannya terhadap data latih. Model melakukan voting tetangga terdekat ($K=5$) dengan pembobotan kuadrat jarak terbalik ($\frac{1}{d^2}$) untuk menampilkan hasil prediksi kategori sampah dan grafik persentasenya secara real-time di GUI.
+   Project deteksi sampah menggunakan ekstraksi fitur citra.
