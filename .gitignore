@@ -1,0 +1,7 @@
+# Ignore dataset folders
+data_uji/
+dataset_sampah/
+dataset_sampah/**
+
+# Ignore uploaded files
+static/uploads/
